@@ -5,6 +5,7 @@ Installation:
 git clone https://github.com/SridharaDasu/UprootPyPlot.git
 cd UprootPyPlot
 virtualenv --python python3 venv
+pip3 install --upgrade pip
 pip3 install -r requirements.txt
 export UprootPyPlot=$PWD
 ```
@@ -12,11 +13,11 @@ export UprootPyPlot=$PWD
 Data:
 
 Obtain a Delphes root file from: https://pages.hep.wisc.edu/~dasu/physics535-data
+
 for example:
 
 ```
-curl https://pages.hep.wisc.edu/~dasu/physics535-data/e+e-ZH/Events/run_01/tag_1_delphes_events.root
-mv tag_1_delphes_events.root e+e-ZH.root
+curl https://pages.hep.wisc.edu/~dasu/physics535-data/e+e-ZH/Events/run_01/tag_1_delphes_events.root --output $UprootPyPlot/e+e-ZH.root
 ```
 
 Usage:
