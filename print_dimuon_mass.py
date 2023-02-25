@@ -7,14 +7,14 @@ import matplotlib.pyplot as plt
 if len(sys.argv) == 2:
     input_file = sys.argv[1]
 else:
-    input_file = "c3-zh-aa-bbtautau.root"
+    input_file = "e+e-zh.root"
 
 input = uproot.open(input_file)
 
-tree = input["Delphes;1"]
+events = input["Delphes;1"]
 
 # Select events with at least two muons
-for dimuons in tree.arrays(["Muon/Muon.PT", "Muon/Muon.Eta", "Muon/Muon.Phi"]):
+for dimuons in events.arrays(["Muon/Muon.PT", "Muon/Muon.Eta", "Muon/Muon.Phi"]):
     if len(dimuons["Muon/Muon.PT"]) > 1:
         # Construct four vectors of the two muons in the event
         muon0 = vector.obj(

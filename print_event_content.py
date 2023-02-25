@@ -8,13 +8,13 @@ else:
 
 input = uproot.open(input_file)
 
-tree = input["Delphes;1"]
+events = input["Delphes;1"]
 
 print(f"Content of the file {input_file}")
-print('The content of the tree = input["Delphes;1"] is:')
+print('The content of the events = input["Delphes;1"] is:')
 
-for item in tree.items():
+for item in events.items():
     print(item[0])
 
-print('You can access the elements as array = tree["Particle"]["Particle.E"].array()')
+print('You can access the elements as array = events["Particle"]["Particle.E"].array()')
 print("You may want to use np.squeeze(array)")
