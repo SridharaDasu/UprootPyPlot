@@ -28,30 +28,31 @@ source venv/bin/activate
 python plot_dimuon_mass.py e+e-ZH.root
 ```
 
+The first command sets your directory.
+
+The second command activates the virtual environment, which provides access to the Python libraries needed. You need to run those commands in a new shell when you open it.
+
+The plot should show the invariant mass of dimuons in the data file, clearly showing the Z-mass peak if you use the e+e-ZH.root file. If you pick a file with different type of events, your plot may not show the Z peak. Here is how my plot looks like:
+
 ![plot](dimuon-invariant-mass.png)
 
+Proposed Activities:
 
-The plot should show the invariant mass of dimuons in the data file, clearly showing the Z-mass peak if you use the e+e-ZH.root file. If you pick a file with different type of events, your plot may not show the Z peak.
-
-Activity:
-
-1) Create di-electron invariant mass plot - does it look similar to dimuon plot? is the rate of dimuon and dielectron production from the Z-bosons proceed at the same rate?
+1) Create di-electron invariant mass plot - does it look similar to dimuon plot? Does the dimuon and dielectron production from the Z-bosons proceed at the same rate?
 
 2) Create di-jet invariant mass - does this plot look similar to dimuon plot? If not, why is that?
 
-3) What about the Higgs bosons in the events? Perhaps, take the dielectron and dimuon events, and make di-jet invariant mass for those events.
+3) What about the Higgs bosons in the events? Perhaps, take the Z-events in the dielectron and dimuon modes only, and make di-jet invariant mass for those events. Does that work better?
 
 4) Determine rates of Z decays and H decays in the data sample provided and compare to the Standard Model expectation of the branching fractions. Discuss if there is a match with expectation or otherwise.
 
 
 Event content:
 
-In order to see what you can do, it is useful to know what the content of the event file is. In order to dump the content, use the following commands:
+In order to see what quantities you can access and analyze, the content of the event file can be dumped using the following command (when in the virtual environment):
 
 
 ```
-cd $UprootPyPlot
-source venv/bin/activate
 python print_event_content.py e+e-ZH.root
 ```
 
