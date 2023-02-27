@@ -28,6 +28,9 @@ source venv/bin/activate
 python plot_dimuon_mass.py e+e-ZH.root
 ```
 
+![plot](dimuon-invariant-mass.png)
+
+
 The plot should show the invariant mass of dimuons in the data file, clearly showing the Z-mass peak if you use the e+e-ZH.root file. If you pick a file with different type of events, your plot may not show the Z peak.
 
 Activity:
