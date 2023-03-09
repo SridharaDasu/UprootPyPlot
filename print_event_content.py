@@ -4,7 +4,7 @@ import uproot
 if len(sys.argv) == 2:
     input_file = sys.argv[1]
 else:
-    input_file = "c3-zh-aa-bbtautau.root"
+    input_file = "e+e-zh.root"
 
 input = uproot.open(input_file)
 
