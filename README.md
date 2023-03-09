@@ -15,11 +15,7 @@ Data:
 
 Obtain a Delphes root file from: https://pages.hep.wisc.edu/~dasu/physics535-data
 
-for example:
-
-```
-curl https://pages.hep.wisc.edu/~dasu/physics535-data/e+e-ZH/Events/run_01/tag_1_delphes_events.root --output $UprootPyPlot/e+e-ZH.root
-```
+for example: https://pages.hep.wisc.edu/~dasu/physics535-data/e+e-ZH/Events/run_01/e+e-ZH.root
 
 Analysis:
 
