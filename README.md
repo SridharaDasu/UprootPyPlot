@@ -5,6 +5,7 @@ Installation:
 git clone https://github.com/SridharaDasu/UprootPyPlot.git
 cd UprootPyPlot
 virtualenv --python python3 venv
+source venv/bin/activate
 pip3 install --upgrade pip
 pip3 install -r requirements.txt
 export UprootPyPlot=$PWD
