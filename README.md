@@ -1,5 +1,4 @@
-
-Installation:
+Installation using your Terminal application:
 
 ```
 git clone https://github.com/SridharaDasu/UprootPyPlot.git
@@ -10,6 +9,8 @@ pip3 install --upgrade pip
 pip3 install -r requirements.txt
 export UprootPyPlot=$PWD
 ```
+
+You can also install using Python SDK environments, but those vary with the application / operating system used. I know people who managed to make it work with PyCharm. Ask your colleagues in the class.
 
 Data:
 
