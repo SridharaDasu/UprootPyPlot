@@ -3,3 +3,7 @@
 py.py
 venv
 .idea
+*.png
+*.jpg
+*.pdf
+
