@@ -2,4 +2,4 @@
 *.root
 py.py
 venv
-
+.idea
