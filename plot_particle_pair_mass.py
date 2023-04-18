@@ -64,14 +64,17 @@ class PairProcessor(processor.ProcessorABC):
         pass
 
 
+import sys
 import uproot
-import numpy as np
 import awkward as ak
 from coffea.nanoevents import NanoEventsFactory
 from coffea.nanoevents import DelphesSchema
 import matplotlib.pyplot as plt
-dataset = "e+e-zh"
-file = uproot.open(dataset+".root")
+if len(sys.argv) == 2:
+    dataset = sys.argv[1]
+else:
+    dataset = "e+e-zh"
+file = uproot.open(f"{dataset}.root")
 events = NanoEventsFactory.from_root(
     file,
     schemaclass=DelphesSchema,
@@ -80,11 +83,11 @@ events = NanoEventsFactory.from_root(
 ).events()
 p = PairProcessor()
 out = p.process(events)
-print(type(out), ":\n", out)
 fig, axs = plt.subplots(2, 2)
-fig.suptitle("Particle Pair Masses")
+fig.suptitle(f"Particle Pair Masses ({dataset})")
 out[dataset]['h_m_pair_mass'].plot1d(ax=axs[0, 0])
 out[dataset]['h_e_pair_mass'].plot1d(ax=axs[0, 1])
 out[dataset]['h_j_pair_mass'].plot1d(ax=axs[1, 0])
 out[dataset]['h_p_pair_mass'].plot1d(ax=axs[1, 1])
 plt.show()
+fig.savefig(f"{dataset}.png")
