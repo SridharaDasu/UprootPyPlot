@@ -7,7 +7,7 @@ class PairProcessor(processor.ProcessorABC):
         pass
 
     def pair_mass(self, particle, particle_name="p", charged=False):
-        if charged:
+        try:
             particles = ak.zip(
                 {
                     "pt": particle.PT,
@@ -21,20 +21,34 @@ class PairProcessor(processor.ProcessorABC):
             )
             # Check that there are two particle candidates and they are oppositely charged
             cut = (ak.num(particles) == 2) & (ak.sum(particles.charge, axis=1) == 0)
-        else:
-            particles = ak.zip(
-                {
-                    "pt": particle.PT,
-                    "eta": particle.Eta,
-                    "phi": particle.Phi,
-                    "mass": particle.mass,
-                    "charge": particle.mass,  # Dummy variable needed as photon does not have Charge variable
-                },
-                with_name="PtEtaPhiMCandidate",
-                behavior=candidate.behavior,
-            )
-            # Check that there are two particle candidates, ignoring charge
-            cut=ak.num(particles) == 2
+        except Exception:
+            try:
+                particles = ak.zip(
+                    {
+                        "pt": particle.PT,
+                        "eta": particle.Eta,
+                        "phi": particle.Phi,
+                        "mass": particle.Mass,
+                        "charge": particle.Charge,
+                    },
+                    with_name="PtEtaPhiMCandidate",
+                    behavior=candidate.behavior,
+                )
+                # Check that there are two particle candidates and they are oppositely charged
+                cut = (ak.num(particles) == 2) & (ak.sum(particles.charge, axis=1) == 0)
+            except Exception:
+                particles = ak.zip(
+                    {
+                        "pt": particle.PT,
+                        "eta": particle.Eta,
+                        "phi": particle.Phi,
+                        "mass": particle.mass,
+                        "charge": 0.0
+                    },
+                    with_name="PtEtaPhiMCandidate",
+                    behavior=candidate.behavior,
+                )
+                cut = ak.num(particles) == 2
         h_mass = (
             hist.Hist.new
             .Log(1000, 0.2, 200., name="mass", label=f"$m_{{{particle_name}{particle_name}}}$ [GeV]")
@@ -48,15 +62,15 @@ class PairProcessor(processor.ProcessorABC):
         dataset = events.metadata["dataset"]
         h_m_pair_mass = self.pair_mass(events.Muon, "\mu", charged=True)
         h_e_pair_mass = self.pair_mass(events.Electron, "e", charged=True)
-        h_j_pair_mass = self.pair_mass(events.Jet, "j", charged=False)
-        h_p_pair_mass = self.pair_mass(events.Photon, "\gamma", charged=False)
+        h_t_pair_mass = self.pair_mass(events.Tau, "\\tau", charged=True)
+        h_j_pair_mass = self.pair_mass(events.Jet, "jet", charged=False)
         return {
             dataset: {
                 "entries": len(events),
                 "h_m_pair_mass": h_m_pair_mass,
                 "h_e_pair_mass": h_e_pair_mass,
+                "h_t_pair_mass": h_t_pair_mass,
                 "h_j_pair_mass": h_j_pair_mass,
-                "h_p_pair_mass": h_p_pair_mass,
             }
         }
 
@@ -87,7 +101,7 @@ fig, axs = plt.subplots(2, 2)
 fig.suptitle(f"Particle Pair Masses ({dataset})")
 out[dataset]['h_m_pair_mass'].plot1d(ax=axs[0, 0])
 out[dataset]['h_e_pair_mass'].plot1d(ax=axs[0, 1])
-out[dataset]['h_j_pair_mass'].plot1d(ax=axs[1, 0])
-out[dataset]['h_p_pair_mass'].plot1d(ax=axs[1, 1])
+out[dataset]['h_t_pair_mass'].plot1d(ax=axs[1, 0])
+out[dataset]['h_j_pair_mass'].plot1d(ax=axs[1, 1])
 plt.show()
 fig.savefig(f"{dataset}.png")
