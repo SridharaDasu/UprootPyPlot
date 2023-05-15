@@ -16,7 +16,10 @@ Data:
 
 Obtain a Delphes root file from: https://pages.hep.wisc.edu/~dasu/physics535-data
 
-for example: https://pages.hep.wisc.edu/~dasu/physics535-data/e+e-ZH/Events/run_01/e+e-ZH.root
+for example: 
+
+https://pages.hep.wisc.edu/~dasu/physics535-data/e+e-ZH/Events/run_01/e+e-ZH.root
+https://pages.hep.wisc.edu/~dasu/physics535-data/c3-z/Events/run_01/c3-zqq.root
 
 Analysis:
 
@@ -44,6 +47,14 @@ Proposed Activities:
 
 4) Determine rates of Z decays and H decays in the data sample provided and compare to the Standard Model expectation of the branching fractions. Discuss if there is a match with expectation or otherwise.
 
+
+A solution using Coffea technology is given in:
+
+```
+python print_event_content.py e+e-ZH.root
+```
+
+![plot](e+e-zh.png)
 
 Event content:
 
