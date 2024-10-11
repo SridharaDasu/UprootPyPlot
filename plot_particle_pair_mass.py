@@ -1,6 +1,11 @@
+import dask
+import dask.array as da
+
+import hist.dask as hda
+
+import coffea
 from coffea import processor
 from coffea.nanoevents.methods import candidate
-import hist
 
 class PairProcessor(processor.ProcessorABC):
     def __init__(self):
@@ -49,14 +54,16 @@ class PairProcessor(processor.ProcessorABC):
                     behavior=candidate.behavior,
                 )
                 cut = ak.num(particles) == 2
-        h_mass = (
-            hist.Hist.new
-            .Log(1000, 0.2, 200., name="mass", label=f"$m_{{{particle_name}{particle_name}}}$ [GeV]")
-            .Int64()
-        )
         pair = particles[cut][:, 0] + particles[cut][:, 1]
-        h_mass.fill(mass=pair.mass)
-        return h_mass
+        h = hda.Hist.new.Log(
+            1000,
+            0.2,
+            200.,
+            name="mass",
+            label=f"$m_{{{particle_name}{particle_name}}}$ [GeV]"
+        ).Int64()
+        h.fill(pair.mass)
+        return h
 
     def process(self, events):
         dataset = events.metadata["dataset"]
@@ -66,7 +73,7 @@ class PairProcessor(processor.ProcessorABC):
         h_j_pair_mass = self.pair_mass(events.Jet, "jet", charged=False)
         return {
             dataset: {
-                "entries": len(events),
+                "entries": 0, #  dask_awkward.num(events, axis=0),
                 "h_m_pair_mass": h_m_pair_mass,
                 "h_e_pair_mass": h_e_pair_mass,
                 "h_t_pair_mass": h_t_pair_mass,
@@ -97,11 +104,13 @@ events = NanoEventsFactory.from_root(
 ).events()
 p = PairProcessor()
 out = p.process(events)
+result = dask.compute(out)
+print(result)
 fig, axs = plt.subplots(2, 2)
 fig.suptitle(f"Particle Pair Masses ({dataset})")
-out[dataset]['h_m_pair_mass'].plot1d(ax=axs[0, 0])
-out[dataset]['h_e_pair_mass'].plot1d(ax=axs[0, 1])
-out[dataset]['h_t_pair_mass'].plot1d(ax=axs[1, 0])
-out[dataset]['h_j_pair_mass'].plot1d(ax=axs[1, 1])
+result[0][dataset]['h_m_pair_mass'].plot1d(ax=axs[0, 0])
+result[0][dataset]['h_e_pair_mass'].plot1d(ax=axs[0, 1])
+result[0][dataset]['h_t_pair_mass'].plot1d(ax=axs[1, 0])
+result[0][dataset]['h_j_pair_mass'].plot1d(ax=axs[1, 1])
 plt.show()
 fig.savefig(f"{dataset}.png")
