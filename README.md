@@ -62,7 +62,7 @@ In order to see what quantities you can access and analyze, the content of the e
 
 
 ```
-python print_event_content.py e+e-ZH.root
+python print_event_content.py e+e-ZH
 ```
 
 The output of the command will look like:
