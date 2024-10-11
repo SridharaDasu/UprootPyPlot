@@ -51,7 +51,7 @@ Proposed Activities:
 A solution using Coffea technology is given in:
 
 ```
-python plot_particle_pair_mass.py e+e-ZH.root
+python plot_particle_pair_mass.py e+e-ZH
 ```
 
 ![plot](e+e-zh.png)
@@ -62,7 +62,7 @@ In order to see what quantities you can access and analyze, the content of the e
 
 
 ```
-python print_event_content.py e+e-ZH
+python print_event_content.py e+e-ZH.root
 ```
 
 The output of the command will look like:
