@@ -69,7 +69,10 @@ class PairProcessor(processor.ProcessorABC):
         dataset = events.metadata["dataset"]
         h_m_pair_mass = self.pair_mass(events.Muon, "\mu", charged=True)
         h_e_pair_mass = self.pair_mass(events.Electron, "e", charged=True)
-        h_t_pair_mass = self.pair_mass(events.Tau, "\\tau", charged=True)
+        try:
+            h_t_pair_mass = self.pair_mass(events.Tau, "\\tau", charged=True)
+        except Exception:
+            h_t_pair_mass = self.pair_mass(events.FatJet, "fatjet", charged=True)
         h_j_pair_mass = self.pair_mass(events.Jet, "jet", charged=False)
         return {
             dataset: {
